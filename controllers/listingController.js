@@ -74,3 +74,33 @@ exports.deleteListing = async (req, res) => {
     res.status(404).json({ status: "fail", message: "Listing not found" });
   }
 };
+
+exports.getListingStats = async (req, res) => {
+  try {
+    const stats = await Listing.aggregate([
+      {
+        $match: { price: { $lte: 20 } },
+      },
+      {
+        $group: {
+          _id: "$listCurrency",
+          numListings: { $sum: 1 },
+          totalListingValue: { $sum: "$price" },
+          avgPrice: { $avg: "$price" },
+          minPrice: { $min: "$price" },
+          maxPrice: { $max: "$price" },
+        },
+      },
+      {
+        $sort: { avgPrice: -1 },
+      },
+      // EG: filter out BTC:
+      // {
+      //   $match: { _id: { $ne: "BTC" } },
+      // },
+    ]);
+    res.status(200).json({ status: "success", data: { stats } });
+  } catch (err) {
+    res.status(400).json({ status: "fail", message: "Failed to get Listing" });
+  }
+};

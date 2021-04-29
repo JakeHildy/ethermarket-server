@@ -7,6 +7,8 @@ router
   .route("/recent-six")
   .get(listingController.aliasRecentSix, listingController.getAllListings);
 
+router.route("/listing-stats").get(listingController.getListingStats);
+
 router
   .route("/")
   .get(listingController.getAllListings)
