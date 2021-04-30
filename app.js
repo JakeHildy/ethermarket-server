@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const listingRouter = require("./routes/listingRoutes");
+const uploadRouter = require("./routes/uploadRoutes");
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use((req, _res, next) => {
 ///////////////////////////////////////////
 // ROUTES
 app.use("/api/v1/listings", listingRouter);
+app.use("/api/v1/upload", uploadRouter);
 
 module.exports = app;
