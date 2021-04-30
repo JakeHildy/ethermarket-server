@@ -15,7 +15,6 @@ const upload = multer({ storage }).single("file");
 
 router.route("/").post((req, res) => {
   upload(req, res, (err) => {
-    console.log(err);
     if (err) {
       return res.status(500).json({ status: "Fail", message: err });
     }
