@@ -20,7 +20,7 @@ const listingSchema = new mongoose.Schema({
     type: String,
     required: [true, "A listing must have a description"],
   },
-  images: [{ url: String }],
+  images: [String],
   followers: [String],
   createdAt: { type: Date, default: Date.now() },
 });
