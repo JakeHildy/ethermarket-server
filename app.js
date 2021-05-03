@@ -4,6 +4,7 @@ const listingRouter = require("./routes/listingRoutes");
 const uploadRouter = require("./routes/uploadRoutes");
 const signupRouter = require("./routes/signupRoutes");
 const loginRouter = require("./routes/loginRoutes");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use("/api/v1/listings", listingRouter);
 app.use("/api/v1/upload", uploadRouter);
 app.use("/api/v1/signup", signupRouter);
 app.use("/api/v1/login", loginRouter);
+app.use("/api/v1/user", userRouter);
 
 module.exports = app;
