@@ -25,6 +25,6 @@ app.use("/api/v1/listings", listingRouter);
 app.use("/api/v1/upload", uploadRouter);
 app.use("/api/v1/signup", signupRouter);
 app.use("/api/v1/login", loginRouter);
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/users", userRouter);
 
 module.exports = app;

@@ -15,3 +15,23 @@ exports.getProfile = async (req, res) => {
     res.status(404).json({ status: "fail", message: "User not found" });
   }
 };
+
+exports.followListing = async (req, res) => {
+  const userId = req.body.userId;
+  const listingId = req.params.id;
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $push: { following: listingId } },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).json({ status: "success", data: { user } });
+  } catch (err) {
+    res.status(404).json({ status: "fail", message: err });
+  }
+
+  res.status(200).json({ status: "follow Listing under construction" });
+};

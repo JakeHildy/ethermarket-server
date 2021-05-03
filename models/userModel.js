@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
   },
   ratings: [String],
-  following: [String],
+  following: [{ type: String, unique: true }],
 });
 
 const User = mongoose.model("User", userSchema);
