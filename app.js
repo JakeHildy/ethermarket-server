@@ -3,6 +3,7 @@ const cors = require("cors");
 const listingRouter = require("./routes/listingRoutes");
 const uploadRouter = require("./routes/uploadRoutes");
 const signupRouter = require("./routes/signupRoutes");
+const loginRouter = require("./routes/loginRoutes");
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use((req, _res, next) => {
 app.use("/api/v1/listings", listingRouter);
 app.use("/api/v1/upload", uploadRouter);
 app.use("/api/v1/signup", signupRouter);
+app.use("/api/v1/login", loginRouter);
 
 module.exports = app;
