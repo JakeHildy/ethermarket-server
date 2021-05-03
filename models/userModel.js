@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
   },
   ratings: [String],
-  listings: [String],
   following: [String],
 });
 
