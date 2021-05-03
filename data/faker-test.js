@@ -18,12 +18,15 @@ const { v4: uuidv4 } = require("uuid");
 // };
 // console.log(getRandomImages());
 
-const getRandomFollowerIds = () => {
-  const ids = [];
-  const randNum = Math.ceil(Math.random() * 6);
-  for (let i = 0; i < randNum; i++) {
-    ids.push(uuidv4());
-  }
-  return ids;
-};
-console.log(getRandomFollowerIds());
+// const getRandomFollowerIds = () => {
+//   const ids = [];
+//   const randNum = Math.ceil(Math.random() * 6);
+//   for (let i = 0; i < randNum; i++) {
+//     ids.push(uuidv4());
+//   }
+//   return ids;
+// };
+// console.log(getRandomFollowerIds());
+
+// Get a Secret Key
+console.log(require("crypto").randomBytes(32).toString("hex"));
