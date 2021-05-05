@@ -6,6 +6,7 @@ const signupRouter = require("./routes/signupRoutes");
 const loginRouter = require("./routes/loginRoutes");
 const userRouter = require("./routes/userRoutes");
 const cryptoRouter = require("./routes/cryptoRoutes");
+const { getCryptoPrices } = require("./utils/getCryptoPrices");
 
 const app = express();
 
@@ -28,5 +29,9 @@ app.use("/api/v1/signup", signupRouter);
 app.use("/api/v1/login", loginRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/crypto", cryptoRouter);
+
+///////////////////////////////////////////
+// DATA GENERATION
+getCryptoPrices();
 
 module.exports = app;
