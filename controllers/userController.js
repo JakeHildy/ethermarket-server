@@ -16,6 +16,19 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+exports.getSimpleProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const userData = {
+      ratings: user.ratings,
+      username: user.username,
+    };
+    res.status(200).json({ status: "success", data: userData });
+  } catch (err) {
+    res.status(404).json({ status: "fail", message: "User not found" });
+  }
+};
+
 exports.followListing = async (req, res) => {
   const userId = req.body.userId;
   const listingId = req.params.id;

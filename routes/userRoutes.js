@@ -20,6 +20,7 @@ const authorize = (req, res, next) => {
 };
 
 router.route("/follow/:id").patch(authorize, userController.followListing);
+router.route("/simple/:id").get(userController.getSimpleProfile);
 router.route("/:id").get(authorize, userController.getProfile);
 
 module.exports = router;
