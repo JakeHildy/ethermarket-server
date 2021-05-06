@@ -45,6 +45,21 @@ exports.followListing = async (req, res) => {
   } catch (err) {
     res.status(404).json({ status: "fail", message: err });
   }
+};
 
-  res.status(200).json({ status: "follow Listing under construction" });
+exports.followingListing = async (req, res) => {
+  const listingId = req.params.id;
+  try {
+    console.log(listingId);
+    const users = await User.find({ following: listingId });
+    const followers = users.map((user) => {
+      return {
+        username: user.username,
+        _id: user._id,
+      };
+    });
+    res.status(200).json({ status: "following Listing ep", followers });
+  } catch (err) {
+    res.status(404).json({ status: "fail", message: err });
+  }
 };
