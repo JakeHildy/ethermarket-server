@@ -6,7 +6,7 @@ dotenv.config({ path: ".env" });
 const app = require("./app");
 
 const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
+  "password",
   process.env.DATABASE_PASSWORD
 );
 
@@ -19,6 +19,6 @@ mongoose
   })
   .then(() => console.log("DB connection successful!"));
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => console.log(`App Listening On port ${PORT}`));
