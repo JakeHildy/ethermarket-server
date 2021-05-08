@@ -11,7 +11,7 @@ exports.login = async (req, res) => {
 
     // User Authenticated:
     let token = jwt.sign({ username: user.username }, process.env.JWT_KEY);
-    res.status(200).json({ token, id: user._id });
+    res.status(200).json({ token, id: user._id, username: user.username });
   } catch (err) {
     res.status(400).json({ message: "failed", err });
   }

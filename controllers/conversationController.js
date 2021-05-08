@@ -12,9 +12,17 @@ exports.createConversation = async (req, res) => {
 
 exports.getAllConversations = async (req, res) => {
   try {
-    const conversations = await Conversation.find();
+    const features = new APIFeatures(Conversation.find(), req.query).filter();
+
+    const conversations = await features.query;
+
+    if (conversations.length === 0)
+      return res
+        .status(200)
+        .json({ status: "fail", message: "no conversation created" });
     res.status(200).json({
       status: "success",
+      message: "conversation found",
       data: conversations,
     });
   } catch (err) {
@@ -25,6 +33,10 @@ exports.getAllConversations = async (req, res) => {
 exports.getConversation = async (req, res) => {
   try {
     const conversation = await Conversation.find({ _id: req.params.id });
+    if (conversation.length === 0)
+      return res
+        .status(404)
+        .json({ status: "fail", message: "Conversation does not exist" });
     res.status(200).json({ status: "Success", conversation });
   } catch (err) {
     res.status(404).json({ status: "fail", data: err });

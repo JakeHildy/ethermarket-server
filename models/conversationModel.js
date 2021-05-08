@@ -5,13 +5,13 @@ const ConversationSchema = new mongoose.Schema({
     type: String,
     required: [true, "A Conversation must a listingId"],
   },
-  creatorId: {
+  creatorUsername: {
     type: String,
-    required: [true, "A Conversation must a creatorId"],
+    required: [true, "A Conversation must a Creator username"],
   },
-  followerId: {
+  followerUsername: {
     type: String,
-    required: [true, "A Conversation must a followerId"],
+    required: [true, "A Conversation must a Follower username"],
   },
   conversationHistory: [
     {
