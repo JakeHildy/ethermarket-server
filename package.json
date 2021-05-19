@@ -10,6 +10,7 @@
   "author": "Jacob Hildebrandt",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.909.0",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
