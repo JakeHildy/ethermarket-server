@@ -42,6 +42,16 @@ listingSchema.pre("save", function (next) {
   next();
 });
 
+listingSchema.pre("save", function (next) {
+  console.log("Will save document...");
+  next();
+});
+
+listingSchema.post("save", function (doc, next) {
+  console.log(doc);
+  next();
+});
+
 const Listing = mongoose.model("Listing", listingSchema);
 
 module.exports = Listing;
