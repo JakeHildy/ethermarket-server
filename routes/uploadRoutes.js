@@ -30,4 +30,15 @@ router.route("/").post(upload, async (req, res) => {
   }
 });
 
+router.route("/:name").delete(async (req, res) => {
+  try {
+    await deleteFile(req.params.name);
+    res
+      .status(200)
+      .json({ status: "success", message: `${req.params.name} deleted.` });
+  } catch (err) {
+    return res.status(500).json({ status: "Fail", message: err });
+  }
+});
+
 module.exports = router;
