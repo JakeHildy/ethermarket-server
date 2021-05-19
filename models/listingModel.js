@@ -42,13 +42,28 @@ listingSchema.pre("save", function (next) {
   next();
 });
 
-listingSchema.pre("save", function (next) {
-  console.log("Will save document...");
+// listingSchema.pre("save", function (next) {
+//   console.log("Will save document...");
+//   next();
+// });
+
+// listingSchema.post("save", function (doc, next) {
+//   console.log(doc);
+//   next();
+// });
+
+// QUERY MIDDLEWARE
+// any queries that start with "find". ie findOne find etc.
+// listingSchema.pre("find", function (next) {
+listingSchema.pre(/^find/, function (next) {
+  this.find({ posted: true });
+  this.start = Date.now();
   next();
 });
 
-listingSchema.post("save", function (doc, next) {
-  console.log(doc);
+listingSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+  // console.log(docs);
   next();
 });
 
