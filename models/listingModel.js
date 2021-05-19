@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const axios = require("axios");
+const slugify = require("slugify");
 
 const listingSchema = new mongoose.Schema(
   {
@@ -7,6 +7,7 @@ const listingSchema = new mongoose.Schema(
     posted: { type: Boolean, default: false },
     sold: { type: Boolean, default: false },
     title: { type: String, required: [true, "A listing must have a title"] },
+    slug: String,
     price: {
       type: Number,
       required: [true, "A listing must have a list price"],
@@ -36,8 +37,9 @@ listingSchema.virtual("listingAge").get(function () {
 });
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
-listingSchema.pre("save", function () {
-  console.log(this);
+listingSchema.pre("save", function (next) {
+  this.slug = slugify(this.title, { lower: true });
+  next();
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
