@@ -8,6 +8,9 @@ router
   .get(listingController.aliasRecentSix, listingController.getAllListings);
 
 router.route("/listing-stats").get(listingController.getListingStats);
+router
+  .route("/listings-by-month/:year")
+  .get(listingController.getListingsByMonth);
 
 router
   .route("/")

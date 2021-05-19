@@ -75,6 +75,7 @@ exports.deleteListing = async (req, res) => {
   }
 };
 
+// USING AGGREGATION PIPELINE
 exports.getListingStats = async (req, res) => {
   try {
     const stats = await Listing.aggregate([
@@ -99,8 +100,53 @@ exports.getListingStats = async (req, res) => {
       //   $match: { _id: { $ne: "BTC" } },
       // },
     ]);
-    res.status(200).json({ status: "success", data: { stats } });
+    res.status(200).json({ status: "success", stats });
   } catch (err) {
     res.status(400).json({ status: "fail", message: "Failed to get Listing" });
+  }
+};
+
+exports.getListingsByMonth = async (req, res) => {
+  try {
+    const year = req.params.year * 1;
+
+    const plan = await Listing.aggregate([
+      {
+        $unwind: "$createdAt",
+      },
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(`${year}-01-01`),
+            $lte: new Date(`${year}-12-31`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          numListings: { $sum: 1 },
+          listings: { $push: "$title" },
+        },
+      },
+      {
+        $addFields: { month: "$_id" },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+      {
+        $sort: { numListings: -1 },
+      },
+      {
+        limit: 12,
+      },
+    ]);
+
+    res.status(200).json({ status: "success", plan });
+  } catch (err) {
+    res.status(404).json({ status: "fail", message: err });
   }
 };
