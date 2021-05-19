@@ -67,6 +67,13 @@ listingSchema.post(/^find/, function (docs, next) {
   next();
 });
 
+// AGGREGATION MIDDLEWARE
+listingSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { posted: true } });
+  console.log(this.pipeline());
+  next();
+});
+
 const Listing = mongoose.model("Listing", listingSchema);
 
 module.exports = Listing;

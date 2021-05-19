@@ -79,9 +79,9 @@ exports.deleteListing = async (req, res) => {
 exports.getListingStats = async (req, res) => {
   try {
     const stats = await Listing.aggregate([
-      {
-        $match: { price: { $lte: 20 } },
-      },
+      // {
+      //   $match: { price: { $lte: 25 } },
+      // },
       {
         $group: {
           _id: "$listCurrency",
@@ -140,9 +140,9 @@ exports.getListingsByMonth = async (req, res) => {
       {
         $sort: { numListings: -1 },
       },
-      {
-        limit: 12,
-      },
+      // {
+      //   limit: 12,
+      // },
     ]);
 
     res.status(200).json({ status: "success", plan });
