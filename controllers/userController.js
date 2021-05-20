@@ -1,8 +1,14 @@
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
 
 exports.getProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new AppError("No user Found with that ID", 404));
+  }
+
   const userData = {
     email: user.email,
     following: user.following,
@@ -15,6 +21,11 @@ exports.getProfile = catchAsync(async (req, res, next) => {
 
 exports.getSimpleProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new AppError("No user Found with that ID", 404));
+  }
+
   const userData = {
     ratings: user.ratings,
     username: user.username,
@@ -33,6 +44,11 @@ exports.followListing = catchAsync(async (req, res, next) => {
       runValidators: true,
     }
   );
+
+  if (!user) {
+    return next(new AppError("No user Found with that ID", 404));
+  }
+
   res.status(200).json({ status: "success", data: { user } });
 });
 

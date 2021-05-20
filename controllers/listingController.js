@@ -1,6 +1,7 @@
 const Listing = require("./../models/listingModel");
 const APIFeatures = require("./../utils/apiFeatures");
 const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
 
 exports.aliasRecentSix = (req, _res, next) => {
   req.query.limit = "6";
@@ -39,6 +40,11 @@ exports.createListing = catchAsync(async (req, res, next) => {
 
 exports.getListing = catchAsync(async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    return next(new AppError("No Listing Found with that ID", 404));
+  }
+
   res.status(200).json({ status: "success", data: { listing } });
 });
 
@@ -47,11 +53,21 @@ exports.updateListing = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
+  if (!listing) {
+    return next(new AppError("No Listing Found with that ID", 404));
+  }
+
   res.status(200).json({ status: "success", data: { listing } });
 });
 
 exports.deleteListing = catchAsync(async (req, res, next) => {
-  await Listing.findByIdAndDelete(req.params.id);
+  const listing = await Listing.findByIdAndDelete(req.params.id);
+
+  if (!listing) {
+    return next(new AppError("No Listing Found with that ID", 404));
+  }
+
   res.status(204).json({ status: "success", data: null });
 });
 

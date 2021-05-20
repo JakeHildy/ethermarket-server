@@ -1,10 +1,11 @@
 const APIFeatures = require("./../utils/apiFeatures");
 const Conversation = require("./../models/conversationModel");
 const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
 
 exports.createConversation = catchAsync(async (req, res, next) => {
   const newConversation = await Conversation.create(req.body);
-  res.status(200).json({ status: "Success", message: newConversation });
+  res.status(201).json({ status: "Success", message: newConversation });
 });
 
 exports.getAllConversations = catchAsync(async (req, res, next) => {
@@ -23,11 +24,11 @@ exports.getAllConversations = catchAsync(async (req, res, next) => {
 });
 
 exports.getConversation = catchAsync(async (req, res, next) => {
-  const conversation = await Conversation.find({ _id: req.params.id });
-  if (conversation.length === 0)
-    return res
-      .status(404)
-      .json({ status: "fail", message: "Conversation does not exist" });
+  const conversation = await Conversation.findById(req.params.id);
+
+  if (!conversation) {
+    return next(new AppError("No Conversation with that ID", 404));
+  }
   res.status(200).json({ status: "Success", conversation });
 });
 
