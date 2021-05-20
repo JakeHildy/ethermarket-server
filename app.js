@@ -1,5 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
+
 const listingRouter = require("./routes/listingRoutes");
 const uploadRouter = require("./routes/uploadRoutes");
 const signupRouter = require("./routes/signupRoutes");
@@ -31,6 +34,13 @@ app.use("/api/v1/login", loginRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/crypto", cryptoRouter);
 app.use("/api/v1/conversations", conversationRouter);
+
+// Route Not Found
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
 
 ///////////////////////////////////////////
 // DATA GENERATION
