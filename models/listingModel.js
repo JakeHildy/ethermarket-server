@@ -1,18 +1,30 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+// const validator = require("validator");
 
 const listingSchema = new mongoose.Schema(
   {
     creatorId: { type: String, required: [true, "A listing must a creatorId"] },
     posted: { type: Boolean, default: false },
     sold: { type: Boolean, default: false },
-    title: { type: String, required: [true, "A listing must have a title"] },
+    title: {
+      type: String,
+      required: [true, "A listing must have a title"],
+      maxlength: [
+        50,
+        "A listing name must have less than or equal to 50 characters!",
+      ],
+      minlength: [2, "A listing name must have more than one character!"],
+    },
     slug: String,
     price: {
       type: Number,
       required: [true, "A listing must have a list price"],
     },
-    listCurrency: { type: String, default: "ETH" },
+    listCurrency: {
+      type: String,
+      default: "ETH" /*to validate: enum: ["ETH", "BTC"]*/,
+    },
     category: {
       type: String,
       required: [true, "A listing must have a category"],
@@ -70,7 +82,7 @@ listingSchema.post(/^find/, function (docs, next) {
 // AGGREGATION MIDDLEWARE
 listingSchema.pre("aggregate", function (next) {
   this.pipeline().unshift({ $match: { posted: true } });
-  console.log(this.pipeline());
+  // console.log(this.pipeline());
   next();
 });
 
