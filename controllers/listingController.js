@@ -9,7 +9,7 @@ exports.aliasRecentSix = (req, _res, next) => {
   next();
 };
 
-exports.getAllListings = catchAsync(async (req, res) => {
+exports.getAllListings = catchAsync(async (req, res, next) => {
   // EXECUTE QUERY
   const features = new APIFeatures(Listing.find(), req.query)
     .filter()
@@ -37,12 +37,12 @@ exports.createListing = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getListing = catchAsync(async (req, res) => {
+exports.getListing = catchAsync(async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
   res.status(200).json({ status: "success", data: { listing } });
 });
 
-exports.updateListing = catchAsync(async (req, res) => {
+exports.updateListing = catchAsync(async (req, res, next) => {
   const listing = await Listing.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -50,13 +50,13 @@ exports.updateListing = catchAsync(async (req, res) => {
   res.status(200).json({ status: "success", data: { listing } });
 });
 
-exports.deleteListing = catchAsync(async (req, res) => {
+exports.deleteListing = catchAsync(async (req, res, next) => {
   await Listing.findByIdAndDelete(req.params.id);
   res.status(204).json({ status: "success", data: null });
 });
 
 // USING AGGREGATION PIPELINE
-exports.getListingStats = catchAsync(async (req, res) => {
+exports.getListingStats = catchAsync(async (req, res, next) => {
   const stats = await Listing.aggregate([
     // {
     //   $match: { price: { $lte: 25 } },
@@ -82,7 +82,7 @@ exports.getListingStats = catchAsync(async (req, res) => {
   res.status(200).json({ status: "success", stats });
 });
 
-exports.getListingsByMonth = catchAsync(async (req, res) => {
+exports.getListingsByMonth = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1;
   const plan = await Listing.aggregate([
     {
