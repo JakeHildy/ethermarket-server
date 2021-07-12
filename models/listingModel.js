@@ -9,6 +9,7 @@ const listingSchema = new mongoose.Schema(
     sold: { type: Boolean, default: false },
     title: {
       type: String,
+      unique: true,
       required: [true, "A listing must have a title"],
       maxlength: [
         50,
